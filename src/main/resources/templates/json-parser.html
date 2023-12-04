@@ -132,7 +132,7 @@
     <button id="ClearButton" onclick="clearTextFields()">Clear</button>
     <button id="AddButton" onclick="toggleMenu()">Add</button>
     <button id="SearchButton" onclick="toggleSearchMenu()">Search</button>
-    <button id="ExitButton" onclick="goHomeEpta()">Exit</button>
+    <button id="ExitButton" onclick="goHome()">Exit</button>
   </div>
   <br>
 
@@ -215,7 +215,6 @@
 
     const apiUrl = '/json-parser/read';
 
-
     fetch(apiUrl)
             .then((response) => {
               if (!response.ok) {
@@ -232,16 +231,9 @@
             });
   }
 
-  function goHomeEpta() {
+  function goHome() {
     window.location.href = '/';
   }
-
-  function submitCharacters() {
-    var nameCharacter = document.getElementById("NameCharacterInput").value;
-    var idCharacter = document.getElementById("IdCharacterInput").value;
-    document.getElementById("characterMenu").style.display = "none";
-  }
-
 
 </script>
 </html>

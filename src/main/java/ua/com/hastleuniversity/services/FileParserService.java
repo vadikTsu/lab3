@@ -81,7 +81,6 @@ public class FileParserService {
         }
 
         htmlTable.append("</table>");
-        System.out.println(htmlTable.toString());
         return htmlTable.toString();
     }
 
