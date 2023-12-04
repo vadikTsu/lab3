@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Project</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+    <script type="text/javascript" th:src="@{/js/script_menu.js}"></script>
+</head>
+<body>
+
+<div id="sidebar" class="sidebar">
+    <a th:method="GET" href="http://localhost:8080">Home</a>
+    <div class="menu-item">
+        <a class="menu-button" onclick="redirectToMenu()">Articels</a>
+        <div class="submenu" >
+            <a  class="menu-button" onclick="redirectToMenu()">New Article</a>
+            <a  class="menu-button" onclick="redirectToMenu()">Article Servoce</a>
+        </div>
+    </div>
+    <div class="menu-item">
+        <a class="menu-button" onclick="redirectToMenu()">File Service</a>
+        <div class="submenu" >
+            <a th:method="GET" href="/json-parser" class="menu-button" onclick="redirectToMenu()">Json Parser</a>
+            <a class="menu-button" onclick="redirectToMenu()">Xml Parser</a>
+        </div>
+    </div>
+    <a th:method="GET" href="/about" >Other</a>
+</div>
+
+<div id="main">
+    <button class="openbtn" onclick="toggleNav()">☰ Menu</button>
+    <div class="about-section">
+        <div class="about-content">
+            <h2>About Project</h2>
+            <p>
+                This poject is a project, WOW CRAZY OOP YAYAYAYAYAYAY
+            </p>
+            <p>
+                what inspired you to start it ? - I dont fucking know. Just bear in mind it is an accident !
+            </p>
+            <div class="author-contacts">
+                <p><strong>SpringBoot:</strong>>vadymtsudenko@gmail.com</a></p>
+                <p><strong>Hibernate:</strong> </p>
+                <p><strong>MySql:</strong> </p>
+                <p><strong>JavaScrript and AJAX:</strong> </p>
+                <p><strong>Thymeleaf:</strong> </p>
+                <p><strong>Jackson API:</strong>used to parse </p>
+            </div>
+        </div>
+    </div>
+    <div class="author-info">
+        <h3>About the Author</h3>
+        <img src="photo_2023-06-28_12-23-36.jpg" alt="Project Photo" class="about-image">
+        <p class="author-name">Vadym Tsudenko</p>
+        <p class="author-description">A student of K26 group, Vadym Tsudenko is dedicated to learning and growing in the field of Java SpringBoot development.</p>
+        <div class="author-contacts">
+            <p><strong>Email:</strong> <a href="javascript:void(0);" id="emailLink" onclick="copyEmailToClipboard()">vadymtsudenko@gmail.com</a></p>
+            <p><strong>Phone:</strong> +1 (962) 898-3295</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

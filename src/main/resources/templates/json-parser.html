@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+<script type="text/javascript" th:src="@{/js/script_menu.js}"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>JSON Parser Interface</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #e9ecef;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      width: 40rem;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .form-control {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .form-control label {
+      width: 5rem;
+      margin-right: 1rem;
+    }
+    .form-control input[type="text"],
+    .form-control input[type="checkbox"],
+    .form-control input[type="radio"] {
+      margin-right: 0.5rem;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      background-color: #233850;
+      color: white;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #05101e;
+    }
+    .text-area {
+      width: 100%;
+      height: 10rem;
+      border: 1px solid #ced4da;
+      border-radius: 0.3rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+    }
+
+    /* Apply styles to the form */
+    .styled-form {
+      background-color: #f8f9fa;
+      border: 1px solid #ced4da;
+      border-radius: 0.3rem;
+      padding: 1rem;
+      width: 300px;
+      margin: 0 auto;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style form controls */
+    .form-control {
+      margin-bottom: 1rem;
+    }
+
+    .form-control label {
+      font-weight: bold;
+      display: block;
+    }
+
+    .form-control input[type="text"],
+    .form-control input[type="date"],
+    .form-control textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-radius: 0.3rem;
+      font-size: 16px;
+    }
+
+    /* Style the Submit button */
+    #SubmitArticleButton {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 0.3rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #SubmitArticleButton:hover {
+      background-color: #0056b3;
+    }
+
+    /* Hide the form by default */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Welcome to JSON parser</h2>
+
+  <label for="textarea"></label><textarea id="textarea" class="text-area" th:text="${loadedData}"></textarea>
+  <div class="buttons">
+    <button id="LoadButton" onclick="loadData()">Load</button>
+    <button id="ClearButton" onclick="clearTextFields()">Clear</button>
+    <button id="AddButton" onclick="toggleMenu()">Add</button>
+    <button id="SearchButton" onclick="toggleSearchMenu()">Search</button>
+    <button id="ExitButton" onclick="goHomeEpta()">Exit</button>
+  </div>
+  <br>
+
+
+  <div id="characterMenu" class="hidden">
+    <form id="dataForm" th:action="@{/json-parser/save}" th:object="${article}" th:method="POST" class="styled-form">
+      <div class="form-control">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter title" required th:value="${article.title}">
+      </div>
+      <div class="form-control">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter image URL" th:value="${article.imageUrl}">
+      </div>
+      <div class="form-control">
+        <label for="text">Text:</label>
+        <textarea id="text" name="text" placeholder="Enter text" required th:value="${article.text}"></textarea>
+      </div>
+      <div class="form-control">
+        <label for="publishDate">Publish Date:</label>
+        <input type="date" id="publishDate" name="publishDate" required th:value="${article.publishDate}">
+      </div>
+    <div align="center">
+      <button class="buttons" type="submit">Submit</button>
+    </div>
+    </form>
+  </div>
+
+  <div id="searchMenu" class="hidden">
+    <form id="searchForm" th:action="@{/json-parser/search}" th:method="get" class="styled-form">
+      <div class="form-control">
+        <label for="searchId">ID:</label>
+        <input type="text" id="searchId" name="searchId" placeholder="Enter ID">
+        <input type="checkbox" id="includeId" name="includeId">
+      </div>
+      <div class="form-control">
+        <label for="searchTitle">Title:</label>
+        <input type="text" id="searchTitle" name="searchTitle" placeholder="Enter title">
+        <input type="checkbox" id="includeTitle" name="includeTitle">
+      </div>
+      <div align="center">
+        <button type="submit">Submit Search</button>
+      </div>
+    </form>
+  </div>
+  <div class="buttons" >
+  <button onclick="downloadFile()">Download</button>
+</div>
+</div>
+</body>
+<script>
+
+  function downloadFile() {
+      window.location.href = '/json-parser/download';
+  }
+
+  function toggleMenu() {
+    var characterMenu = document.getElementById("characterMenu");
+    if (characterMenu.style.display === "none" || characterMenu.style.display === "") {
+      characterMenu.style.display = "block";
+    } else {
+      characterMenu.style.display = "none";
+    }
+  }
+
+  function toggleSearchMenu() {
+    var searchMenu = document.getElementById("searchMenu");
+    if (searchMenu.style.display === "none" || searchMenu.style.display === "") {
+      searchMenu.style.display = "block";
+    } else {
+      searchMenu.style.display = "none";
+    }
+  }
+
+  function clearTextFields() {
+    document.getElementById("textarea").value = "";
+  }
+
+  function loadData() {
+
+    const apiUrl = '/json-parser/read';
+
+
+    fetch(apiUrl)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.text();
+            })
+            .then((data) => {
+
+              document.getElementById("textarea").value = data;
+            })
+            .catch((error) => {
+              alert('There was a problem with the fetch operation:', error);
+            });
+  }
+
+  function goHomeEpta() {
+    window.location.href = '/';
+  }
+
+  function submitCharacters() {
+    var nameCharacter = document.getElementById("NameCharacterInput").value;
+    var idCharacter = document.getElementById("IdCharacterInput").value;
+    document.getElementById("characterMenu").style.display = "none";
+  }
+
+
+</script>
+</html>

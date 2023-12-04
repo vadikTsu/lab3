@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring School</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css"/>
+</head>
+<body>
+<div id="sidebar" class="sidebar">
+    <a th:method="GET" href="http://localhost:8080">Home</a>
+    <div class="menu-item">
+        <a class="menu-button" onclick="redirectToMenu()">Articels</a>
+        <div class="submenu" >
+            <a  class="menu-button" onclick="redirectToMenu()">New Article</a>
+            <a  class="menu-button" onclick="redirectToMenu()">Article Servoce</a>
+        </div>
+    </div>
+    <div class="menu-item">
+        <a class="menu-button" onclick="redirectToMenu()">File Service</a>
+        <div class="submenu" >
+            <a th:method="GET" href="/json-parser" class="menu-button" onclick="redirectToMenu()">Json Parser</a>
+            <a class="menu-button" onclick="redirectToMenu()">Xml Parser</a>
+        </div>
+    </div>
+    <a th:method="GET" href="/about" >Other</a>
+</div>
+
+<div class="search-container">
+    <label for="search-box"></label>
+    <input type="text" id="search-box" placeholder="Search something" autocomplete="off">
+</div>
+<div id="suggestion-box" style="display: none;"></div>
+
+
+<div id="main">
+    <button class="openbtn" onclick="toggleNav()">☰ Menu</button>
+    <h2 align="center">Main News</h2>
+    <div th:each="article : ${articles}">
+        <div class="news-frame">
+            <div class="news-content">
+                <div class="image-container">
+                    <img src="photo_2022-11-19_01-42-16.jpg" class="about-image-main">
+                </div>
+                <div class="title-container">
+                    <p align="center" class="title" th:text="${article.getTitle()}">Default news item text</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="drop-zone" id="drop-zone">
+    <p>Drag and drop a file here or click to select a file</p>
+    <form id="file-upload-form" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file-upload" style="display: none;" />
+        <button type="submit" style="display: none;">Upload</button>
+    </form>
+</div>
+
+<script type="text/javascript" th:src="@{/js/script_menu.js}"></script>
+</body>
+</html>
